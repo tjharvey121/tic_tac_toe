@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Tic Tac Toe game </title>
+        <meta lang="en">
+        <meta charset="utf-8">
+        <script type="text/javascript">
+            // Global Variables
+            var painted;
+            var content;
+            var winningCombo;
+            var turn = 0;
+            var theCanvas;
+            var c;
+            var cxt;
+            var squaresFilled = 0;
+            var w;
+            var y;
+            
+            // Instanciate Arrays
+            window.onload=function() {
+                painted = new Array();
+                content = new Array();
+                winningCombo = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+                for (var i = 0; i <=8; i++) {
+                    painted[i] = false;
+                    content[i] = "";
+                }
+            }
+            
+            // Game Methods
+            function canvasClicked(canvasNumber) {
+                theCanvas = "canvas" + canvasNumber;
+                c = document.getElementById(theCanvas);
+                cxt = c.getContext("2d");
+                
+                if(painted[canvasNumber - 1] == false) {
+                    if(turn%2 == 0) {
+                        cxt.beginPath();
+                        cxt.moveTo(10,10);
+                        cxt.lineTo(40,40);
+                        cxt.moveTo(40,10);
+                        cxt.lineTo(10,40);
+                        cxt.stroke();
+                        cxt.closePath();
+                        content[canvasNumber-1] = "X";
+                    }
+                    
+                    else {
+                        cxt.beginPath();
+                        cxt.arc(25,25,20,0,Math.PI*2, true);
+                        cxt.stroke();
+                        cxt.closePath();
+                        content[canvasNumber-1] = "O";
+                    }
+                    
+                    turn++;
+                    painted[canvasNumber-1] = true;
+                    squaresFilled++;
+                    checkForWinners(content[canvasNumber-1]);
+                    
+                    if (squaresFilled == 9) {
+                        alert("The Game is Over");
+                        playAgain();
+                    }
+                }
+                
+                else {
+                    alert("That space is taken, try again");
+                }                
+                
+            }
+            
+            function checkForWinners (symbol) {
+                for (var i = 0; i < winningCombo.length; i++) {
+                    if (content[winningCombo[i][0]] == symbol && content[winningCombo[i][1]] == symbol && content[winningCombo[i][2]] == symbol) {
+                        alert(symbol + " Wins!");
+                        playAgain();
+                    }
+                }
+            }
+            
+            function playAgain () {
+                y = confirm("Play Again?");
+                if (y == true) {
+                    alert("Restarting...");
+                    location.reload(true);
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1> Tic Tac Toe Game </h1>
+        <h1 style="font-size: 100%"> Simple game where players try and get 3 marks in a row, while preventing the other player from achieving the same goal </h1><br>
+        <div class="box">
+            <canvas id="canvas1" width="50" height="50" onclick="canvasClicked(1)"></canvas>
+            <canvas id="canvas2" width="50" height="50" onclick="canvasClicked(2)"></canvas>
+            <canvas id="canvas3" width="50" height="50" onclick="canvasClicked(3)"></canvas><br>
+            <canvas id="canvas4" width="50" height="50" onclick="canvasClicked(4)"></canvas>
+            <canvas id="canvas5" width="50" height="50" onclick="canvasClicked(5)"></canvas>
+            <canvas id="canvas6" width="50" height="50" onclick="canvasClicked(6)"></canvas><br>
+            <canvas id="canvas7" width="50" height="50" onclick="canvasClicked(7)"></canvas>
+            <canvas id="canvas8" width="50" height="50" onclick="canvasClicked(8)"></canvas>
+            <canvas id="canvas9" width="50" height="50" onclick="canvasClicked(9)"></canvas>
+        </div>
+    </body>
+</html>
+<style>
+    h1 {
+        text-align: center;
+    }
+    body {
+        background-color: #e0e0eb;
+    }
+    canvas {
+        border: 1px solid #3333cc;
+    }
+
+    body{
+
+        text-align:center;
+
+    }
+
+    .box{
+
+        text-align:center;
+        width:auto;
+        height:auto;
+
+    }
+
+    h3{
+
+        position:relative;
+        -webkit-animation:h3Animation 5s; 
+
+    }
+
+    h1{
+
+        position:relative;
+        -webkit-animation:h1Animation 5s; 
+
+    }
+
+    h2{
+
+        position:relative;
+        -webkit-animation:h2Animation 5s; 
+
+    }
+
+    canvas{
+
+        position:relative;
+        -webkit-animation:canvasAnimation 3s; 
+
+    }
+
+    @-webkit-keyframes canvasAnimation {
+
+        0%   {-webkit-transform:rotate(90deg);left:0px; top:0px;}
+
+    }
+
+    @-webkit-keyframes h1Animation {
+
+        0%   {-webkit-transform:rotate(0deg)}
+        50%  {-webkit-transform:rotate(180deg)}
+        100%  { -webkit-transform:rotate(360deg)}
+
+    }
+
+
+</style>
